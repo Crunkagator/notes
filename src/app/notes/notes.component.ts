@@ -13,7 +13,7 @@ export class NotesComponent implements OnInit {
   private symbolsLeft = 1000;
   private tags: Array<string> = [];
   private tagsPool: Array<string> = ['#test1', '#test2', '#test3', '#test4'];
-  private notes: Array<object> = [];
+  private notes: Array<Note> = [];
   public err: HTMLElement;
 
   constructor() {}
@@ -38,16 +38,25 @@ export class NotesComponent implements OnInit {
       this.err.innerText = 'Note cannot be empty and longer than 1000 symbols';
       return;
     }
-    const note = new Note(this.noteInput.value, this.tags);
+    const additionalTags = this.noteInput.value.match(/\#[a-z0-9]+/gi);
+    const tags = this.tags
+      .concat(additionalTags)
+      .filter((tag, i, arr) => arr.indexOf(tag) === i);
+    const note = new Note(this.noteInput.value, tags);
     this.notes.push(note);
     this.tags = [];
     this.noteInput.reset('');
     this.tagInput.reset('');
   }
 
+  deleteNote(note: Note) {
+    this.notes = this.notes.filter(n => n !== note);
+  }
+
   addTag() {
     if (this.tagInput.status === 'INVALID') {
-      this.err.innerText = 'Invalid tag! Must be non-empty and less than 25 symbols';
+      this.err.innerText =
+        'Invalid tag! Must be non-empty and less than 25 symbols';
       return;
     }
     const newTag =
