@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <div class="main-container">
+      <div class="input-wrapper">
+        <div>Input</div>
+        <textarea class="noteInput" [formControl]="noteInput" placeholder="Type something great here..."></textarea>
+        <div *ngIf="symbolsLeft == 1000">Type your awesome note</div>
+        <div *ngIf="symbolsLeft < 1000 && symbolsLeft > 0">
+          Way to go, {{ symbolsLeft }} symbol<span *ngIf="symbolsLeft > 1">s</span>left
+        </div>
+        <div *ngIf="symbolsLeft <= 0">You have no more symbols left :(</div>
+        <div>And some tags:</div>
+        <div class="outlined">
+          <div>Your tags:</div>
+          <div *ngFor="let tag of tags" class="tag">{{ tag }}</div>
+          <div id="errorOutput"></div>
+          <select id="tagSelector" style="width: 100px;">
+            <option *ngFor="let tag of tagsPool" [value]="tag">{{tag}}</option>
+          </select>
+          <input [formControl]="tagInput" placeholder="New tag..." />NewTag
+          <button (click)="addTag()">Add New Tag</button>
+          <button (click)="chooseTag()">Choose Tag</button>
+          <button (click)="addNote()">Create new note</button>
+        </div>
+      </div>
+      <div class="output-wrapper">
+        <div>Output</div>
+        <div *ngFor="let note of notes" class="note">
+          <div class="note-text">Note : {{ note.text }}</div>
+          <div>Tags :</div>
+          <div class="tag" *ngFor="let tag of note.tags">{{ tag }}</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
