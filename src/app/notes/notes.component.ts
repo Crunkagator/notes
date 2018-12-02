@@ -83,8 +83,12 @@ export class NotesComponent implements OnInit {
     const tags = this.tags
       .concat(additionalTags)
       .filter(tag => tag !== null)
+      .filter(tag => tag.length < 21)
       .filter((tag, i, arr) => arr.indexOf(tag) === i);
     const note = new Note(this.noteInput.value, tags);
+    this.tagsPool = this.tagsPool
+      .concat(tags)
+      .filter((tag, i, arr) => arr.indexOf(tag) === i);
     this.tags = [];
     this.noteInput.reset('');
     this.tagInput.reset('');
@@ -142,6 +146,7 @@ export class NotesComponent implements OnInit {
     if (checkNew !== false) {
       this.tagsPool.push(newTag);
       this.tags.push(newTag);
+      localStorage.setItem('tagsPool', JSON.stringify(this.tagsPool));
     } else {
       this.err.innerText = 'This tag already exists';
     }
