@@ -14,8 +14,8 @@ export class NotesComponent implements OnInit {
   private filterInput: FormControl;
   private symbolsLeft = 1000;
   private tags: Array<string> = [];
-  private tagsPool: Array<string> = ['#test1', '#test2', '#test3', '#test4'];
-  private notes: Array<Note> = [];
+  private tagsPool: Array<string>;
+  private notes: Array<Note>;
   private sortedNotes: Array<Note> = [];
   private err: HTMLElement;
   private editMode: boolean;
@@ -24,6 +24,8 @@ export class NotesComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
+    this.notes = JSON.parse(localStorage.getItem('notes')) ? JSON.parse(localStorage.getItem('notes')) : [];
+    this.tagsPool = JSON.parse(localStorage.getItem('tagsPool')) ? JSON.parse(localStorage.getItem('tagsPool')) : [];
     this.editMode = false;
     this.noteInput = new FormControl('', [
       Validators.required,
@@ -65,7 +67,7 @@ export class NotesComponent implements OnInit {
       }
       this.err.innerText = '';
     });
-    this.tagInput.valueChanges.subscribe(a => this.err.innerText = '');
+    this.tagInput.valueChanges.subscribe(a => (this.err.innerText = ''));
   }
 
   createNote(): Note {
@@ -85,10 +87,16 @@ export class NotesComponent implements OnInit {
     return note;
   }
 
+  setStotage() {
+    localStorage.setItem('notes', JSON.stringify(this.notes));
+    localStorage.setItem('tagsPool', JSON.stringify(this.tagsPool));
+  }
+
   addNote() {
     const note = this.createNote();
     this.notes.push(note);
     this.err.innerText = '';
+    this.setStotage();
   }
 
   editNote(note: Note) {
@@ -103,11 +111,13 @@ export class NotesComponent implements OnInit {
     this.notes.splice(this.noteIndex, 1, editedNote);
     this.editMode = false;
     this.filterInput.reset('');
+    this.setStotage();
   }
 
   deleteNote(note: Note) {
     this.notes = this.notes.filter(n => n !== note);
     this.sortedNotes = this.sortedNotes.filter(n => n !== note);
+    this.setStotage();
   }
 
   deleteTag(tag: string) {
