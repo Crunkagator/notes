@@ -1,27 +1,41 @@
 .main-container {
   width: 60%;
   margin: 0 auto;
-  .outlined();
 }
 
+@media (max-width: 900px){
+  .main-container {
+    width: 100%;
+  }
+}
+
+@bgrey: 1px solid rgb(201, 201, 201);
+
 .outlined {
-  border: 1px solid black;
+  border-top: @bgrey;
+  border-bottom: @bgrey;
+  border-left: none;
+  border-right: none;
+}
+
+.out {
+  .outlined();
+  border-top: none;
 }
 
 .tag {
   display: inline-block;
-  padding: 5px 5px;
-  background-color: rgb(212, 203, 189);
+  padding: 0.2rem 0.2rem;
+  background-color: rgb(219, 219, 219);
   border: 1px solid gray;
-  border-radius: 5px;
-  margin-right: 20px;
+  border-radius: 0.4rem;
+  margin-right: 0.8rem;
+  font-size: 0.7rem;
 }
 
 .note {
-  width: 100%;
+  width: 90%;
   height: auto;
-  border: 1px solid red;
-  border-radius: 3px;
 }
 
 .note-text {
@@ -35,6 +49,10 @@ textarea,
   min-height: 150px;
 }
 
+.input-group {
+  width: auto;
+}
+
 .textarea-container {
   display: grid;
   grid-template-areas: 'innerContent';
@@ -45,20 +63,22 @@ textarea,
   overflow-y: scroll;
   margin: 0;
   .outlined();
+  border-bottom: none;
 }
 
 textarea {
   display: block;
   z-index: 2;
-  color: #444;
+  color: rgb(58, 58, 58);
   background-color: transparent;
   resize: none;
   .sync();
+
 }
 
 .highlights-container {
   z-index: 1;
-  background-color: #fff;
+  background-color: rgb(255, 255, 255);
   pointer-events: none;
   .sync();
 }
@@ -79,9 +99,17 @@ textarea,
 .marked {
   border-radius: 3px;
   color: transparent;
-  background-color: #cecbc6;
+  background-color: #9febeb;
 }
 
 * {
   box-sizing: border-box;
+}
+
+.fa-trash:hover {
+  color: rgb(211, 65, 65);
+}
+
+.fa-edit:hover {
+  color: rgb(255, 193, 7);
 }

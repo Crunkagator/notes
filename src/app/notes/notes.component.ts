@@ -45,6 +45,7 @@ export class NotesComponent implements OnInit {
         .replace(/\n$/g, '\n\n')
         .replace(/\#[A-Z0-9]+?\b/gi, `<span class='marked'>$&</span>`);
       HL.innerHTML = markedText;
+      this.err.innerText = '';
     });
     this.filterInput.valueChanges.subscribe(data => {
       if (this.filterInput.status === 'VALID') {
@@ -62,8 +63,9 @@ export class NotesComponent implements OnInit {
           }
         });
       }
+      this.err.innerText = '';
     });
-    this.tagInput.valueChanges.subscribe(a => console.log(a.length));
+    this.tagInput.valueChanges.subscribe(a => this.err.innerText = '');
   }
 
   createNote(): Note {
@@ -86,6 +88,7 @@ export class NotesComponent implements OnInit {
   addNote() {
     const note = this.createNote();
     this.notes.push(note);
+    this.err.innerText = '';
   }
 
   editNote(note: Note) {
@@ -93,18 +96,18 @@ export class NotesComponent implements OnInit {
     this.noteInput.setValue(note.text);
     this.tags = note.tags;
     this.noteIndex = this.notes.indexOf(note);
-    console.log(this.noteIndex);
   }
 
   saveNote() {
     const editedNote = this.createNote();
     this.notes.splice(this.noteIndex, 1, editedNote);
     this.editMode = false;
-    console.log(this.notes);
+    this.filterInput.reset('');
   }
 
   deleteNote(note: Note) {
     this.notes = this.notes.filter(n => n !== note);
+    this.sortedNotes = this.sortedNotes.filter(n => n !== note);
   }
 
   deleteTag(tag: string) {
