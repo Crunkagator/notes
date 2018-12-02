@@ -132,6 +132,12 @@ export class NotesComponent implements OnInit {
     this.tags = this.tags.filter(t => t !== tag);
   }
 
+  deleteTagFromPool() {
+    this.tagsPool = this.tagsPool.filter(t => t !== document
+      .getElementsByTagName('select')
+      .namedItem('tagSelector').value);
+  }
+
   addTag() {
     if (this.tagInput.status === 'INVALID') {
       this.err.innerText =
