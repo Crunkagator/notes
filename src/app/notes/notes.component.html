@@ -2,7 +2,12 @@
   <div class="main-container">
     <div class="input-wrapper">
       <div>Input</div>
-      <textarea class="noteInput" [formControl]="noteInput" placeholder="Type something great here..."></textarea>
+      <div class='textarea-container'>
+        <div class="highlights-container">
+          <div id="highlights" class="highlighter"></div>
+        </div>
+        <textarea class="noteInput" [formControl]="noteInput" placeholder="Type something great here..."></textarea>
+      </div>
       <div *ngIf="symbolsLeft == 1000">Type your awesome note</div>
       <div *ngIf="symbolsLeft < 1000 && symbolsLeft > 0">
         Way to go, {{ symbolsLeft }} symbol<span *ngIf="symbolsLeft > 1">s</span>left

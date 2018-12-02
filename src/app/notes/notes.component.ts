@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Note } from './notes';
 
 @Component({
   selector: 'app-notes',
   templateUrl: './notes.component.html',
-  styleUrls: ['./notes.component.less']
+  styleUrls: ['./notes.component.less'],
+  encapsulation: ViewEncapsulation.None
 })
 export class NotesComponent implements OnInit {
   private noteInput: FormControl;
@@ -27,9 +28,14 @@ export class NotesComponent implements OnInit {
       Validators.required,
       Validators.maxLength(25)
     ]);
+    const HL = document.getElementById('highlights');
     this.err = document.getElementById('errorOutput');
     this.noteInput.valueChanges.subscribe(text => {
       this.symbolsLeft = 1000 - text.length;
+      const markedText = text
+        .replace(/\n$/g, '\n\n')
+        .replace(/\#[A-Z0-9]+?\b/gi, `<span class='marked'>$&</span>`);
+      HL.innerHTML = markedText;
     });
   }
 

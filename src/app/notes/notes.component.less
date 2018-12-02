@@ -24,15 +24,64 @@
   border-radius: 3px;
 }
 
-.noteInput {
-  box-sizing: border-box;
-  width: 100%;
-  font-size: 1.5rem;
-  min-height: 100px;
-  resize: vertical;
-  overflow-y: scroll;
-}
-
 .note-text {
   overflow-wrap: break-word;
+}
+
+.highlights-container,
+textarea,
+.textarea-container {
+  width: 100%;
+  min-height: 150px;
+}
+
+.textarea-container {
+  display: grid;
+  grid-template-areas: 'innerContent';
+}
+
+.sync {
+  grid-area: innerContent;
+  overflow-y: scroll;
+  margin: 0;
+  .outlined();
+}
+
+textarea {
+  display: block;
+  z-index: 2;
+  color: #444;
+  background-color: transparent;
+  resize: none;
+  .sync();
+}
+
+.highlights-container {
+  z-index: 1;
+  background-color: #fff;
+  pointer-events: none;
+  .sync();
+}
+
+.highlighter {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: transparent;
+}
+
+textarea,
+.highlighter {
+  font-size: 1rem;
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: 1px;
+}
+
+.marked {
+  border-radius: 3px;
+  color: transparent;
+  background-color: #cecbc6;
+}
+
+* {
+  box-sizing: border-box;
 }
