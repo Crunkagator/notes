@@ -2,7 +2,7 @@
   <div class="main-container">
     <div class="input-wrapper">
       <div>Input</div>
-      <div class='textarea-container'>
+      <div class="textarea-container">
         <div class="highlights-container">
           <div id="highlights" class="highlighter"></div>
         </div>
@@ -15,8 +15,8 @@
       <div *ngIf="symbolsLeft <= 0">You have no more symbols left :(</div>
       <div>And some tags:</div>
       <div class="outlined">
-        <div>Your tags:</div>
-        <div *ngFor="let tag of tags" class="tag">{{ tag }}</div>
+        <div>Chosen tags (click to delete):</div>
+        <div class="tag" *ngFor="let tag of tags" (click)="deleteTag(tag)">{{ tag }}</div>
         <div id="errorOutput"></div>
         <select id="tagSelector" style="width: 100px;">
           <option *ngFor="let tag of tagsPool" [value]="tag">{{ tag }}</option>
@@ -24,16 +24,31 @@
         <input [formControl]="tagInput" placeholder="New tag..." />
         <button (click)="addTag()">Add New Tag</button>
         <button (click)="chooseTag()">Choose Tag</button>
-        <button (click)="addNote()">Create new note</button>
+        <button *ngIf="editMode === false" (click)="addNote()">Create new note</button>
+        <button *ngIf="editMode === true" (click)="saveNote()">Save note</button>
       </div>
     </div>
     <div class="output-wrapper">
       <div>Output</div>
-      <div *ngFor="let note of notes" class="note">
-        <div class="note-text">Note : {{ note.text }}</div>
-        <div>Tags :</div>
-        <div class="tag" *ngFor="let tag of note.tags">{{ tag }}</div>
-        <button (click)="deleteNote(note)">Delete Note</button>
+      <label for="filter">Filter notes
+        <input id="filter" [formControl]="filterInput" placeholder="filter by tag" />
+      </label>
+      <div *ngIf="filterInput.status === 'INVALID'">
+        <div *ngFor="let note of notes" class="note">
+          <div class="note-text">Note : {{ note.text }}</div>
+          <div>Tags :</div>
+          <div class="tag" *ngFor="let tag of note.tags">{{ tag }}</div>
+          <button (click)="deleteNote(note)">Delete Note</button>
+          <button (click)="editNote(note)">Edit Note</button>
+        </div>
+      </div>
+      <div *ngIf="filterInput.status === 'VALID'">
+        <div *ngFor="let note of sortedNotes" class="note">
+          <div class="note-text">Note : {{ note.text }}</div>
+          <div>Tags :</div>
+          <div class="tag" *ngFor="let tag of note.tags">{{ tag }}</div>
+          <button (click)="deleteNote(note)">Delete Note</button>
+        </div>
       </div>
     </div>
   </div>
