@@ -83,7 +83,7 @@ export class NotesComponent implements OnInit {
     const tags = this.tags
       .concat(additionalTags)
       .filter(tag => tag !== null)
-      .filter(tag => tag.length < 21)
+      .filter(tag => tag.length < 22)
       .filter((tag, i, arr) => arr.indexOf(tag) === i);
     const note = new Note(this.noteInput.value, tags);
     this.tagsPool = this.tagsPool
