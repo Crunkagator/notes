@@ -24,8 +24,12 @@ export class NotesComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.notes = JSON.parse(localStorage.getItem('notes')) ? JSON.parse(localStorage.getItem('notes')) : [];
-    this.tagsPool = JSON.parse(localStorage.getItem('tagsPool')) ? JSON.parse(localStorage.getItem('tagsPool')) : [];
+    this.notes = JSON.parse(localStorage.getItem('notes'))
+      ? JSON.parse(localStorage.getItem('notes'))
+      : [];
+    this.tagsPool = JSON.parse(localStorage.getItem('tagsPool'))
+      ? JSON.parse(localStorage.getItem('tagsPool'))
+      : [];
     this.editMode = false;
     this.noteInput = new FormControl('', [
       Validators.required,
@@ -45,13 +49,13 @@ export class NotesComponent implements OnInit {
       this.symbolsLeft = 1000 - text.length;
       const markedText = text
         .replace(/\n$/g, '\n\n')
-        .replace(/\#[A-Z0-9]+?\b/gi, `<span class='marked'>$&</span>`);
+        .replace(/\#[a-z0-9\'\-]+\b/gi, `<span class='marked'>$&</span>`);
       HL.innerHTML = markedText;
       this.err.innerText = '';
     });
     this.filterInput.valueChanges.subscribe(data => {
       if (this.filterInput.status === 'VALID') {
-        const match = RegExp('#' + data + '[a-z0-9]*', 'gi');
+        const match = RegExp('(#|)' + data + '[a-z0-9\'\-]*', 'gi');
         this.sortedNotes = this.notes.filter(note => {
           let check = false;
           for (let i = 0; i < note.tags.length; i++) {
@@ -75,7 +79,7 @@ export class NotesComponent implements OnInit {
       this.err.innerText = 'Note cannot be empty and longer than 1000 symbols';
       return;
     }
-    const additionalTags = this.noteInput.value.match(/\#[a-z0-9]+?\b/gi);
+    const additionalTags = this.noteInput.value.match(/\#[a-z0-9\'\-]+\b/gi);
     const tags = this.tags
       .concat(additionalTags)
       .filter(tag => tag !== null)
