@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Note } from './notes';
+import { ExpressService } from '../express/express.service';
 
 @Component({
   selector: 'app-notes',
@@ -21,15 +22,9 @@ export class NotesComponent implements OnInit {
   private editMode: boolean;
   private noteIndex: number;
 
-  constructor() {}
+  constructor(private _exp: ExpressService) {}
 
   ngOnInit() {
-    this.notes = JSON.parse(localStorage.getItem('notes'))
-      ? JSON.parse(localStorage.getItem('notes'))
-      : [];
-    this.tagsPool = JSON.parse(localStorage.getItem('tagsPool'))
-      ? JSON.parse(localStorage.getItem('tagsPool'))
-      : [];
     this.editMode = false;
     this.noteInput = new FormControl('', [
       Validators.required,
@@ -72,6 +67,8 @@ export class NotesComponent implements OnInit {
       this.err.innerText = '';
     });
     this.tagInput.valueChanges.subscribe(a => (this.err.innerText = ''));
+    this._exp.getNotes().subscribe((notez: Note[]) => this.notes = notez);
+    this._exp.getTagPool().subscribe((tagz: string[]) => this.tagsPool = tagz);
   }
 
   createNote(): Note {
@@ -96,8 +93,8 @@ export class NotesComponent implements OnInit {
   }
 
   setStotage() {
-    localStorage.setItem('notes', JSON.stringify(this.notes));
-    localStorage.setItem('tagsPool', JSON.stringify(this.tagsPool));
+    this._exp.sendNotes(this.notes).toPromise().then(a => console.log(a)).catch(e => console.log(e));
+    this._exp.sendTagPool(this.tagsPool).toPromise().then(a => console.log(a)).catch(e => console.log(e));
   }
 
   addNote() {
@@ -130,12 +127,14 @@ export class NotesComponent implements OnInit {
 
   deleteTag(tag: string) {
     this.tags = this.tags.filter(t => t !== tag);
+    this.setStotage();
   }
 
   deleteTagFromPool() {
     this.tagsPool = this.tagsPool.filter(t => t !== document
       .getElementsByTagName('select')
       .namedItem('tagSelector').value);
+    this._exp.sendTagPool(this.tagsPool).toPromise().then(a => console.log(a)).catch(e => console.log(e));
   }
 
   addTag() {
