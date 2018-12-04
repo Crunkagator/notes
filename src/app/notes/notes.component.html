@@ -74,7 +74,7 @@
       </div>
     </div>
     <div class="output-wrapper">
-      <div>Your notes:</div>
+      <div>Your notes: {{notes.length}}</div>
       <div *ngIf="filterInput.status === 'INVALID'" class="list-group list-group-flush">
         <div *ngFor="let note of notes" class="d-flex justify-content-between mx-2 list-group-item">
           <div class="w-90 note">
