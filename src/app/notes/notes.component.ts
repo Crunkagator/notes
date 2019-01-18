@@ -15,8 +15,8 @@ export class NotesComponent implements OnInit {
   private filterInput: FormControl;
   private symbolsLeft = 1000;
   private tags: Array<string> = [];
-  private tagsPool: Array<string>;
-  private notes: Array<Note>;
+  private tagsPool: Array<string> = [];
+  private notes: Array<Note> = [];
   private sortedNotes: Array<Note> = [];
   private err: HTMLElement;
   private editMode: boolean;
