@@ -1,10 +1,12 @@
-.main-container {
+app-note-list,
+app-note-editor {
   width: 60%;
   margin: 0 auto;
 }
 
-@media (max-width: 900px){
-  .main-container {
+@media (max-width: 900px) {
+  app-note-list,
+  app-note-editor {
     width: 100%;
   }
 }
@@ -60,7 +62,7 @@ textarea,
 
 .sync {
   grid-area: innerContent;
-  overflow-y: scroll;
+  overflow-y: auto;
   margin: 0;
   .outlined();
   border-bottom: none;
@@ -73,7 +75,6 @@ textarea {
   background-color: transparent;
   resize: none;
   .sync();
-
 }
 
 .highlights-container {

@@ -1,12 +1,10 @@
 const fs = require('fs');
-const notes = fs.readFileSync('notes.json');
-const tags = fs.readFileSync('tagpool.json');
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 app.use(morgan('dev'));
-app.use((req, res, next) => {
+app.use((_req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
     'Access-Control-Allow-Methods',
@@ -16,7 +14,7 @@ app.use((req, res, next) => {
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept, Authorization'
   );
-  res.setHeader('Access-Control-Allow-Credentials', false);
+  res.setHeader('Access-Control-Allow-Credentials', true);
   next();
 });
 
@@ -37,14 +35,16 @@ app.post('/api/savetagpool', (req, res) => {
   fs.writeFile('tagpool.json', tags, err => {
     if (err) res.send(err);
   });
-  res.send('notes saved');
+  res.send('tags saved');
 });
 
 app.get('/api/getnotes', (req, res) => {
+  const notes = fs.readFileSync('notes.json');
   res.send(JSON.parse(notes));
 });
 
 app.get('/api/gettags', (req, res) => {
+  const tags = fs.readFileSync('tagpool.json');
   res.send(JSON.parse(tags));
 });
 
