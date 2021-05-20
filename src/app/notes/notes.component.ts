@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { Note } from '../core/notes';
-import { ExpressService } from '../core/express.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ExpressService } from '../core/express.service';
+import { Note } from '../core/notes';
 
 @Component({
   selector: 'app-notes',
@@ -25,7 +25,7 @@ export class NotesComponent implements OnInit, OnDestroy {
   public noteIndex: number;
   public unSub$$ = new Subject<any>();
 
-  constructor(private _exp: ExpressService) {}
+  constructor(private _exp: ExpressService) { }
 
   ngOnInit() {
     this.editMode = false;
@@ -75,7 +75,7 @@ export class NotesComponent implements OnInit, OnDestroy {
       });
     this.tagInput.valueChanges
       .pipe(takeUntil(this.unSub$$))
-      .subscribe(a => (this.err.innerText = ''));
+      .subscribe(() => (this.err.innerText = ''));
     this._exp
       .getNotes()
       .pipe(takeUntil(this.unSub$$))
@@ -182,7 +182,6 @@ export class NotesComponent implements OnInit, OnDestroy {
     if (checkNew !== false) {
       this.tagsPool.push(newTag);
       this.tags.push(newTag);
-      localStorage.setItem('tagsPool', JSON.stringify(this.tagsPool));
     } else {
       this.err.innerText = 'This tag already exists';
     }

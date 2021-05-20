@@ -15,6 +15,7 @@
 ></app-note-editor>
 <app-note-list
   [notes]="filterInput.valid ? sortedNotes : notes"
+  [editMode]="editMode"
   [editNote]="editNote"
   [deleteNote]="deleteNote"
 ></app-note-list>

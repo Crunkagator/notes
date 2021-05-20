@@ -1,15 +1,14 @@
-import { NgModule } from '@angular/core';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
-
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
-import { NotesComponent } from './notes/notes.component';
-import { ExpressService } from './core/express.service';
 import { HeaderComponent } from './components/header/header.component';
-import { NoteListComponent } from './components/note-list/note-list.component';
 import { NoteEditorComponent } from './components/note-editor/note-editor.component';
+import { NoteListComponent } from './components/note-list/note-list.component';
+import { ExpressService } from './core/express.service';
+import { NotesComponent } from './notes/notes.component';
 
 @NgModule({
   declarations: [AppComponent, NotesComponent, HeaderComponent, NoteListComponent, NoteEditorComponent],
@@ -23,4 +22,4 @@ import { NoteEditorComponent } from './components/note-editor/note-editor.compon
   providers: [ExpressService],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

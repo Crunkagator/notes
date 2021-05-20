@@ -4,8 +4,6 @@ import { Component } from '@angular/core';
   // tslint:disable-next-line: component-selector
   selector: 'body',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.less']
+  styleUrls: ['./app.component.less'],
 })
-export class AppComponent {
-  title = 'notes';
-}
+export class AppComponent {}
